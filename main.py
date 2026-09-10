@@ -41,6 +41,48 @@ def add_prompt():
 
 def show_list():
     """저장된 모든 프롬프트를 목록으로 출력하는 함수"""
+
+def show_by_category():
+    """카테고리를 선택하면 해당 카테고리의 프롬프트만 출력하는 함수"""
+    print("\n=== 카테고리별 조회 ===")
+
+    # 카테고리 목록 정의 (add_prompt와 동일하게)
+    categories = ["텍스트 생성", "이미지 생성", "영상 생성",
+                  "페르소나", "자동화", "기타"]
+
+    # 카테고리 번호와 함께 출력
+    for i, name in enumerate(categories, start=1):
+        print(f"{i}) {name}")
+
+    choice = input("선택: ")
+
+    # 입력값 검증: 1~6 사이 숫자인지 확인
+    if not choice.isdigit() or int(choice) < 1 or int(choice) > len(categories):
+        print("⚠️ 잘못된 번호입니다.")
+        return
+
+    # 선택한 카테고리 이름 구하기
+    selected = categories[int(choice) - 1]
+
+    # 해당 카테고리의 프롬프트만 골라내기
+    filtered = [p for p in prompts if p["category"] == selected]
+
+    # 결과 출력
+    print(f"\n[{selected}] 카테고리 프롬프트:")
+
+    if not filtered:
+        print("해당 카테고리에 프롬프트가 없습니다.")
+        return
+
+    for i, p in enumerate(filtered, start=1):
+        star = " ⭐" if p["favorite"] else ""
+        print(f"{i}. {p['title']}{star}")
+
+    print(f"총 {len(filtered)}개의 프롬프트")
+
+
+
+
     print("\n=== 프롬프트 목록 ===")
 
     # 프롬프트가 하나도 없으면 안내
@@ -112,7 +154,7 @@ def main():
         elif choice == "2":
             show_list()          # ← "(준비 중)" 대신 실제 함수 호출!
         elif choice == "3":
-            print("→ (준비 중) 카테고리별 조회")
+            show_by_category()   # ← 실제 함수 호출!
         elif choice == "4":
             print("→ (준비 중) 프롬프트 검색")
         elif choice == "5":
