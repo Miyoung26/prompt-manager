@@ -45,3 +45,25 @@ python main.py
 - 언어: Python 3.10+
 - 버전 관리: Git & GitHub
 - 데이터 구조: 리스트 + 딕셔너리
+
+## 📸 개발 환경
+
+![개발환경](images/01_dev_env.png)
+
+## 🖥️ 실행 화면
+
+### 메인 메뉴
+![메뉴](images/02_menu.png)
+
+### 프롬프트 추가
+![추가](images/03_add.png)
+
+### 프롬프트 목록
+![목록](images/04_list.png)
+
+### 프롬프트 검색
+![검색](images/05_search.png)
+
+## 🌳 Git 커밋 그래프
+
+![git log](images/06_git_graph.png)
