@@ -154,6 +154,100 @@ def search_prompt():
 
     print(f"{len(results)}개의 프롬프트를 찾았습니다.")
 
+def show_detail():
+    """번호를 입력받아 해당 프롬프트의 전체 내용을 보여주는 함수"""
+    print("\n=== 프롬프트 상세 보기 ===")
+
+    # ① 프롬프트가 하나도 없으면 종료
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+
+    # ② 번호 입력받기
+    choice = input("번호 입력: ").strip()
+
+    # ③ 숫자인지 확인 (isdigit)
+    if not choice.isdigit():
+        print("⚠️ 숫자를 입력해주세요.")
+        return
+
+    # ④ 문자를 숫자로 변환
+    number = int(choice)
+
+    # ⑤ 범위 확인 (1 ~ 프롬프트 개수)
+    if number < 1 or number > len(prompts):
+        print("⚠️ 잘못된 번호입니다.")
+        return
+
+    # ⑥ 번호 → 인덱스 변환 후 프롬프트 꺼내기
+    p = prompts[number - 1]
+    star = "⭐" if p["favorite"] else "없음"
+
+    # ⑦ 예쁘게 출력
+    print("─" * 28)
+    print(f"제목: {p['title']}")
+    print(f"카테고리: {p['category']}")
+    print(f"즐겨찾기: {star}")
+    print("─" * 28)
+    print("내용:")
+    print(p["content"])
+    print("─" * 28)
+
+
+def manage_favorite():
+    """번호를 입력받아 즐겨찾기를 추가/해제하는 함수"""
+    print("\n=== 즐겨찾기 관리 ===")
+
+    # ① 프롬프트 없으면 종료
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+
+    # ② 번호 입력받기
+    choice = input("프롬프트 번호 입력: ").strip()
+
+    # ③ 숫자 검증
+    if not choice.isdigit():
+        print("⚠️ 숫자를 입력해주세요.")
+        return
+
+    number = int(choice)
+
+    # ④ 범위 검증
+    if number < 1 or number > len(prompts):
+        print("⚠️ 잘못된 번호입니다.")
+        return
+
+    # ⑤ 해당 프롬프트 꺼내기
+    p = prompts[number - 1]
+
+    # ⑥ 즐겨찾기 상태 토글!
+    p["favorite"] = not p["favorite"]
+
+    # ⑦ 상태에 따라 다른 메시지
+    if p["favorite"]:
+        print(f"'{p['title']}' 프롬프트를 즐겨찾기에 추가했습니다!")
+    else:
+        print(f"'{p['title']}' 프롬프트를 즐겨찾기에서 해제했습니다!")
+
+def show_favorites():
+    """즐겨찾기된 프롬프트만 모아서 보여주는 함수"""
+    print("\n=== 즐겨찾기 목록 ===")
+
+    # ① favorite이 True인 것만 필터링
+    favorites = [p for p in prompts if p["favorite"]]
+
+    # ② 즐겨찾기가 없으면 종료
+    if not favorites:
+        print("즐겨찾기한 프롬프트가 없습니다.")
+        return
+
+    # ③ 번호 매겨 출력
+    for i, p in enumerate(favorites, start=1):
+        print(f"{i}. [{p['category']}] {p['title']} ⭐")
+
+    print(f"총 {len(favorites)}개의 즐겨찾기")
+
 
 def show_menu():
     """메뉴를 화면에 출력하는 함수"""
@@ -186,11 +280,11 @@ def main():
         elif choice == "4":
             search_prompt()
         elif choice == "5":
-            print("→ (준비 중) 상세 보기")
+            show_detail()
         elif choice == "6":
-            print("→ (준비 중) 즐겨찾기 관리")
+             manage_favorite()
         elif choice == "7":
-            print("→ (준비 중) 즐겨찾기 목록")
+            show_favorites()        
         else:
             print("⚠️ 잘못된 번호입니다. 다시 선택해주세요.")
 
