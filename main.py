@@ -22,6 +22,49 @@ prompts = [
     },
 ]
 
+# 카테고리 목록 (미션 요구사항의 6가지)
+CATEGORIES = ["텍스트 생성", "이미지 생성", "영상 생성", "페르소나", "자동화", "기타"]
+
+
+def input_not_empty(message):
+    """빈 값이면 다시 입력받는 함수"""
+    while True:
+        value = input(message).strip()
+        if value:              # 값이 있으면
+            return value
+        print("⚠️ 빈 값은 입력할 수 없습니다. 다시 입력해주세요.")
+
+
+def add_prompt():
+    """새 프롬프트를 추가하는 함수"""
+    print("\n=== 프롬프트 추가 ===")
+
+    # 1. 제목, 내용 입력 (비어있으면 다시)
+    title = input_not_empty("제목: ")
+    content = input_not_empty("내용: ")
+
+    # 2. 카테고리 선택
+    print("카테고리 선택:")
+    for i, cat in enumerate(CATEGORIES, start=1):
+        print(f"{i}) {cat}")
+
+    while True:
+        choice = input("선택: ").strip()
+        if choice.isdigit() and 1 <= int(choice) <= len(CATEGORIES):
+            category = CATEGORIES[int(choice) - 1]
+            break
+        print("⚠️ 잘못된 번호입니다. 다시 선택해주세요.")
+
+    # 3. 딕셔너리로 만들어 리스트에 추가
+    new_prompt = {
+        "title": title,
+        "content": content,
+        "category": category,
+        "favorite": False        # 즐겨찾기 기본값 False
+    }
+    prompts.append(new_prompt)
+
+    print("프롬프트가 추가되었습니다! ✅")
 
 def show_menu():
     """메뉴를 화면에 출력하는 함수"""
@@ -46,7 +89,7 @@ def main():
             print("프로그램을 종료합니다. 안녕히 가세요!")
             break
         elif choice == "1":
-            print("→ (준비 중) 프롬프트 추가 기능")
+            add_prompt()          # ← "(준비 중)" 대신 실제 함수 호출!
         elif choice == "2":
             print("→ (준비 중) 프롬프트 목록")
         elif choice == "3":
