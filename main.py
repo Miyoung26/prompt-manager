@@ -39,6 +39,25 @@ def add_prompt():
     """새 프롬프트를 추가하는 함수"""
     print("\n=== 프롬프트 추가 ===")
 
+def show_list():
+    """저장된 모든 프롬프트를 목록으로 출력하는 함수"""
+    print("\n=== 프롬프트 목록 ===")
+
+    # 프롬프트가 하나도 없으면 안내
+    if not prompts:
+        print("등록된 프롬프트가 없습니다.")
+        return
+
+    # 번호와 함께 하나씩 출력
+    for i, p in enumerate(prompts, start=1):
+        star = " ⭐" if p["favorite"] else ""   # 즐겨찾기면 별 표시
+        print(f"{i}. [{p['category']}] {p['title']}{star}")
+
+    print(f"총 {len(prompts)}개의 프롬프트")
+
+
+
+
     # 1. 제목, 내용 입력 (비어있으면 다시)
     title = input_not_empty("제목: ")
     content = input_not_empty("내용: ")
@@ -91,7 +110,7 @@ def main():
         elif choice == "1":
             add_prompt()          # ← "(준비 중)" 대신 실제 함수 호출!
         elif choice == "2":
-            print("→ (준비 중) 프롬프트 목록")
+            show_list()          # ← "(준비 중)" 대신 실제 함수 호출!
         elif choice == "3":
             print("→ (준비 중) 카테고리별 조회")
         elif choice == "4":
